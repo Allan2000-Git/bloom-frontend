@@ -2,6 +2,7 @@ import StoryblokWelcomePage, {
   StoryblokWelcomePageProps,
 } from '@/components/storyblok/StoryblokWelcomePage';
 import { routing } from '@/i18n/routing';
+import { STORYBLOK_ENVIRONMENT } from '@/lib/constants/common';
 import { getStoryblokStory } from '@/lib/storyblok';
 import { generateMetadataBasic } from '@/lib/utils/generateMetadataBase';
 import { ISbResult, ISbStoriesParams, getStoryblokApi } from '@storyblok/react/rsc';
@@ -13,7 +14,9 @@ export const dynamic = 'force-dynamic';
 type Params = Promise<{ locale: string; partnerName: string }>;
 
 async function getStory(locale: string, partnerName: string) {
-  return await getStoryblokStory(`welcome/${partnerName}`, locale);
+  return await getStoryblokStory(`welcome/${partnerName}`, locale, {
+    resolve_relations: ['resource_carousel.resources'],
+  });
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
@@ -34,7 +37,7 @@ export async function generateStaticParams() {
   const locales = routing.locales;
 
   let sbParams: ISbStoriesParams = {
-    version: 'published',
+    version: STORYBLOK_ENVIRONMENT,
     starts_with: 'welcome/',
   };
 

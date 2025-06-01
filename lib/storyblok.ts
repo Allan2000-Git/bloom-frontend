@@ -10,6 +10,7 @@ import StoryblokMeetTheTeamPage from '@/components/storyblok/StoryblokMeetTheTea
 import StoryblokPage from '@/components/storyblok/StoryblokPage';
 import StoryblokPageSection from '@/components/storyblok/StoryblokPageSection';
 import StoryblokQuote from '@/components/storyblok/StoryblokQuote';
+import StoryblokResourceCarousel from '@/components/storyblok/StoryblokResourceCarousel';
 import StoryblokRow from '@/components/storyblok/StoryblokRow';
 import StoryblokRowColumnBlock from '@/components/storyblok/StoryblokRowColumnBlock';
 import StoryblokSessionPage from '@/components/storyblok/StoryblokSessionPage';
@@ -26,6 +27,7 @@ import {
   StoryblokClient,
   storyblokInit,
 } from '@storyblok/react/rsc';
+import { STORYBLOK_ENVIRONMENT } from './constants/common';
 
 export const getStoryblokApi = storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
@@ -52,6 +54,7 @@ export const getStoryblokApi = storyblokInit({
     session: StoryblokSessionPage,
     welcome: StoryblokWelcomePage,
     meet_the_team: StoryblokMeetTheTeamPage,
+    resource_carousel: StoryblokResourceCarousel,
   },
 });
 
@@ -66,9 +69,7 @@ export const getStoryblokStory = async (
   }
 
   const sbParams: ISbStoriesParams = {
-    // TODO: fix draft
-    // version: ENVIRONMENT === ENVIRONMENTS.PRODUCTION ? 'published' : 'draft',
-    version: 'published',
+    version: STORYBLOK_ENVIRONMENT,
     language: locale || 'en',
     ...(params && params),
   };
@@ -91,9 +92,7 @@ export const getStoryblokStories = async (
   uuids?: string,
 ) => {
   const sbParams: ISbStoriesParams = {
-    // TODO: fix draft
-    // version: ENVIRONMENT === ENVIRONMENTS.PRODUCTION ? 'published' : 'draft',
-    version: 'published',
+    version: STORYBLOK_ENVIRONMENT,
     language: locale || 'en',
     ...(params && params),
     ...(uuids && { by_uuids: uuids }),
